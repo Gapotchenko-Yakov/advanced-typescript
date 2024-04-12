@@ -35,3 +35,12 @@ let b: InferSomething2<{
   b: { bProp1: true };
   c: 20;
 }>;
+
+type MyReturnType<T extends (...args: any) => any> = T extends (
+  ...args: any
+) => infer R
+  ? R
+  : any;
+
+type testReturnType = ReturnType<() => true>;
+type testMyReturnType = MyReturnType<() => 12>;
