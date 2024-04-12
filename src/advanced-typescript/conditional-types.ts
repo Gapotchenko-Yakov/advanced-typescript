@@ -28,3 +28,6 @@ type AUnion = StringOrNot<23>;
 type FilteredType1 = Exclude<"a" | "b" | "c", "a" | "b">;
 type MyExclude<T, U> = T extends U ? never : T;
 type FilteredType2 = MyExclude<"a" | "b" | "c", "a" | "b">;
+
+type MyType<T> = (() => T) extends () => string | number ? T : never;
+type MyResult = MyType<string | number | boolean>;
