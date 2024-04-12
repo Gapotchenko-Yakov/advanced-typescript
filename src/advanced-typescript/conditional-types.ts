@@ -21,3 +21,10 @@ function someFunction<T>(value: T) {
 
 const result1 = someFunction(true);
 const result2 = someFunction(13);
+
+type StringOrNot<T> = T extends string ? string : never;
+type AUnion = StringOrNot<23>;
+
+type FilteredType1 = Exclude<"a" | "b" | "c", "a" | "b">;
+type MyExclude<T, U> = T extends U ? never : T;
+type FilteredType2 = MyExclude<"a" | "b" | "c", "a" | "b">;
