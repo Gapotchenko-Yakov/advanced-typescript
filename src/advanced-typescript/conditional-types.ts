@@ -2,6 +2,13 @@ type SomeType = string;
 type MyConditionalType = SomeType extends string ? string : null;
 
 function someFunction<T>(value: T) {
+  type A = T extends boolean
+    ? "TYPE A"
+    : T extends number
+    ? "TYPE B"
+    : T extends string
+    ? "TYPE C"
+    : "TYPE D";
   const someOtherFunction = (
     someArg: T extends boolean ? "TYPE A" : "TYPE B"
   ) => {
