@@ -15,3 +15,15 @@ type MyPick<T, Properties extends keyof T> = {
 };
 
 type MyNewType2 = MyPick<{ a: "structure of a"; b: "structure of b" }, "a">;
+
+type MyRecord<K extends keyof any, T> = {
+  [P in K]: T;
+};
+
+type PaletteColor = MyRecord<string, string>;
+const color: PaletteColor = {
+  "100": "black",
+  "900": "white",
+};
+
+Object.keys(color).map((code) => console.log(color[code]));
