@@ -22,12 +22,16 @@ function someFunction<T>(value: T) {
 const result1 = someFunction(true);
 const result2 = someFunction(13);
 
-type StringOrNot<T> = T extends string ? string : never;
-type AUnion = StringOrNot<23>;
+type InferSomething1<T> = T extends infer U ? U : unknown;
 
-type FilteredType1 = Exclude<"a" | "b" | "c", "a" | "b">;
-type MyExclude<T, U> = T extends U ? never : T;
-type FilteredType2 = MyExclude<"a" | "b" | "c", "a" | "b">;
+let a: InferSomething1<"Some string">;
 
-type MyType<T> = (() => T) extends () => string | number ? T : never;
-type MyResult = MyType<string | number | boolean>;
+type InferSomething2<T> = T extends { a: infer A; b: infer B; c: number }
+  ? A & B
+  : unknown;
+
+let b: InferSomething2<{
+  a: { aProp1: "Some string" };
+  b: { bProp1: true };
+  c: 20;
+}>;
