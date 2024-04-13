@@ -53,40 +53,23 @@ function returnInterestType() {
 
 type InterestType = ReturnType<typeof returnInterestType>;
 
-// instance type with mixins
-type Constructable<ClassInstance> = new (...args: any[]) => ClassInstance;
-
-function Deletable<BaseClass extends Constructable<{}>>(Base: BaseClass) {
-  return class extends Base {
-    deleted: boolean = false;
-    delete() {}
-  };
-}
-
+// instance type with factory creational pattern
 class Car {
-  constructor(public name: string) {}
+  constructor(name: string, parameters: Record<string, unknown>) {
+    return { name, ...parameters };
+  }
 }
 
-class User {
-  constructor(public name: string) {}
+class CarFactory {
+  constructor() {}
+
+  create(
+    name: string,
+    parameters: Record<string, unknown>
+  ): InstanceType<typeof Car> {
+    return new Car(name, parameters);
+  }
 }
 
-type UsersList = {
-  user: User;
-  car: Car;
-};
-
-const DeletableCar = Deletable(Car);
-const DeletableUser = Deletable(User);
-
-type DeletableUserInstance = InstanceType<typeof DeletableUser>;
-type DeletableCarInstance = InstanceType<typeof DeletableCar>;
-
-class Profile {
-  user: DeletableUserInstance = {} as DeletableUserInstance;
-  car: DeletableCarInstance = {} as DeletableCarInstance;
-}
-
-const profile = new Profile();
-profile.user = new DeletableUser("John");
-profile.car = new DeletableCar("BMW");
+const carFactory = new CarFactory();
+const carAudi = carFactory.create("Audi", { maxSpeed: 200 });
