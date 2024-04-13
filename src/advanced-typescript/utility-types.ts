@@ -46,3 +46,9 @@ type PositionsWithoutAccessToDB = Exclude<
   AllPositions,
   "Database Administrator" | "Systems Analyst"
 >;
+
+function returnInterestType() {
+  return { name: "Interest Type", props: "some props" };
+}
+
+type InterestType = ReturnType<typeof returnInterestType>;
