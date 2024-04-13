@@ -1,4 +1,4 @@
-enum Occupation {
+enum Position {
   "Design Engineer",
   "Manufacturing Automation Engineer",
   "Software Development Engineer",
@@ -6,13 +6,13 @@ enum Occupation {
   "Quality Engineer (QA Engineer)",
 }
 
-console.log(Occupation[1]);
+console.log(Position[1]);
 
 type User = {
   id: number;
   name: string;
   birthDate: Date;
-  occupation: Occupation;
+  position: Position;
 };
 
 type UserPartial = Partial<User>;
@@ -21,8 +21,28 @@ type RequiredUserFromPartial = Required<UserPartial>;
 
 type ReadonlyUser = Readonly<User>;
 
-type OccupationMap = Record<User["name"], Occupation>;
+type PositionMap = Record<User["name"], Position>;
 
 type PersonalData = Pick<User, "name" | "birthDate">;
 
 type UserWithoutId = Omit<User, "id">;
+
+type AllPositionsWithNullable =
+  | "Software Engineer"
+  | "Web Developer"
+  | "Systems Analyst"
+  | "Database Administrator"
+  | "Network Engineer"
+  | undefined;
+
+type AllPositions = NonNullable<AllPositionsWithNullable>;
+
+type PositionsWithAccessToDB = Extract<
+  AllPositions,
+  "Database Administrator" | "Systems Analyst"
+>;
+
+type PositionsWithoutAccessToDB = Exclude<
+  AllPositions,
+  "Database Administrator" | "Systems Analyst"
+>;
