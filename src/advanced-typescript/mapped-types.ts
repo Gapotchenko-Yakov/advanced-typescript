@@ -20,7 +20,7 @@ type MyNewType2 = MyPick<{ a: "structure of a"; b: "structure of b" }, "a">;
 type Record1<K extends keyof any, T> = {
   [P in K]: T;
   // some: "some value"; // can't have
-};
+} & { some?: "some value" };
 
 type PaletteColor = Record1<number, string>;
 const color: PaletteColor = {
