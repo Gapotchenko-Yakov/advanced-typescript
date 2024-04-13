@@ -8,24 +8,24 @@ enum Position {
 
 console.log(Position[1]);
 
-type User = {
+type Employee = {
   id: number;
   name: string;
   birthDate: Date;
   position: Position;
 };
 
-type UserPartial = Partial<User>;
+type EmployeePartial = Partial<Employee>;
 
-type RequiredUserFromPartial = Required<UserPartial>;
+type RequiredEmployeeFromPartial = Required<EmployeePartial>;
 
-type ReadonlyUser = Readonly<User>;
+type ReadonlyEmployee = Readonly<Employee>;
 
-type PositionMap = Record<User["name"], Position>;
+type PositionMap = Record<Employee["name"], Position>;
 
-type PersonalData = Pick<User, "name" | "birthDate">;
+type PersonalData = Pick<Employee, "name" | "birthDate">;
 
-type UserWithoutId = Omit<User, "id">;
+type EmployeeWithoutId = Omit<Employee, "id">;
 
 type AllPositionsWithNullable =
   | "Software Engineer"
@@ -52,3 +52,41 @@ function returnInterestType() {
 }
 
 type InterestType = ReturnType<typeof returnInterestType>;
+
+// instance type with mixins
+type Constructable<ClassInstance> = new (...args: any[]) => ClassInstance;
+
+function Deletable<BaseClass extends Constructable<{}>>(Base: BaseClass) {
+  return class extends Base {
+    deleted: boolean = false;
+    delete() {}
+  };
+}
+
+class Car {
+  constructor(public name: string) {}
+}
+
+class User {
+  constructor(public name: string) {}
+}
+
+type UsersList = {
+  user: User;
+  car: Car;
+};
+
+const DeletableCar = Deletable(Car);
+const DeletableUser = Deletable(User);
+
+type DeletableUserInstance = InstanceType<typeof DeletableUser>;
+type DeletableCarInstance = InstanceType<typeof DeletableCar>;
+
+class Profile {
+  user: DeletableUserInstance = {} as DeletableUserInstance;
+  car: DeletableCarInstance = {} as DeletableCarInstance;
+}
+
+const profile = new Profile();
+profile.user = new DeletableUser("John");
+profile.car = new DeletableCar("BMW");
