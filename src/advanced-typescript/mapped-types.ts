@@ -19,6 +19,7 @@ type MyNewType2 = MyPick<{ a: "structure of a"; b: "structure of b" }, "a">;
 // mapped type
 type Record1<K extends keyof any, T> = {
   [P in K]: T;
+  // some: "some value"; // can't have
 };
 
 type PaletteColor = Record1<number, string>;
@@ -32,4 +33,5 @@ Object.keys(color).map((code) => console.log(color[Number.parseInt(code)]));
 // index signature
 interface Record2 {
   [K: number | string]: string;
+  some: "some value";
 }
