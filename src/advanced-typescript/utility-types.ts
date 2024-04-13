@@ -73,3 +73,25 @@ class CarFactory {
 
 const carFactory = new CarFactory();
 const carAudi = carFactory.create("Audi", { maxSpeed: 200 });
+
+// ThisType demo
+interface MyObject {
+  sayHello(): void;
+}
+
+interface MyObjectThis {
+  helloWorld(): string;
+}
+
+const myObject: MyObject & ThisType<MyObjectThis> = {
+  sayHello() {
+    return this.helloWorld();
+  },
+};
+myObject.sayHello = myObject.sayHello.bind({
+  helloWorld() {
+    return "Hello World!";
+  },
+});
+
+console.log(myObject.sayHello());
